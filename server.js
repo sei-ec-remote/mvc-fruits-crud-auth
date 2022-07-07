@@ -6,6 +6,7 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const methodOverride = require('method-override')
+const fruitRoutes = require('./controller/fruit_routes')
 
 ////////////////////////////////////////////
 // Create our express application object
@@ -22,10 +23,12 @@ app.use(methodOverride('_method'))
 app.use(express.urlencoded({ extended: false }))
 // to serve files from public statically
 app.use(express.static('public'))
+app.use('/fruits', fruitRoutes)
 
 ////////////////////////////////////////////
 // Routes
 ////////////////////////////////////////////
+// localhost:3000/
 app.get('/', (req, res) => {
 	res.send('your server is running, better go catch it')
 })
