@@ -7,6 +7,7 @@ const express = require('express')
 const morgan = require('morgan')
 const methodOverride = require('method-override')
 const fruitRoutes = require('./controller/fruit_routes')
+const userRoutes = require('./controller/user_routes')
 
 ////////////////////////////////////////////
 // Create our express application object
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: false }))
 // to serve files from public statically
 app.use(express.static('public'))
 app.use('/fruits', fruitRoutes)
+app.use('/users', userRoutes)
 
 ////////////////////////////////////////////
 // Routes
