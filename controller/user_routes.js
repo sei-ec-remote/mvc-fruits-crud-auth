@@ -99,6 +99,15 @@ router.post('/login', async (req, res) => {
 // logout route
 // can be a GET that calls destroy on our session
 // we can add an 'are you sure' page if there is time
+router.get('/logout', (req, res) => {
+    // destroy the session and redirect to the main page
+    req.session.destroy(ret => {
+        console.log('this is returned from req.session.destroy', ret)
+        console.log('session has been destroyed')
+        console.log(req.session)
+        res.redirect('/fruits')
+    })
+})
 
 ///////////////////////////////////////
 // export our router
