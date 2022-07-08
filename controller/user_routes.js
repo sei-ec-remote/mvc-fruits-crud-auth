@@ -53,6 +53,48 @@ router.get('/login', (req, res) => {
     res.render('users/login')
 })
 // one POST to login and create the session
+router.post('/login', async (req, res) => {
+    // take a look at our req obj
+    // console.log('this is the request object', req)
+    // destructure data from request body
+    const { username, password } = req.body
+    // console.log('this is username', username)
+    // console.log('this is password', password)
+    console.log('this is the session', req.session)
+    // first we find the user
+    User.findOne({ username })
+        .then(async (user) => {
+            // we check if the user exists
+            // if they do, we'll compare the passwords and make sure it's correct
+            if (user) {
+                // compare the pw
+                // bcrypt.compare evaluates to a truthy or falsy value
+                const result = await bcrypt.compare(password, user.password)
+
+                if (result) {
+                    // if the compare comes back truthy we store user properties in the session
+                    // if the pw is correct, we'll use the newly created session object
+                    req.session.username = username
+                    req.session.loggedIn = true
+                    // redirect to the '/fruits' page
+                    console.log('this is the session after login', req.session)
+                    res.redirect('/fruits')
+                } else {
+                    // otherwise(pw incorrect) send an error message
+                    // for now just send some json error
+                    res.json({ error: 'username or password incorrect' })
+                }
+            } else {
+                // send error if user doesn't exist
+                res.json({ error: 'user does not exist' })
+            }
+        })
+        // if they don't we'll redirect to the sign up page
+        .catch(error => {
+            console.log(error)
+            res.json(error)
+        })
+})
 
 // logout route
 // can be a GET that calls destroy on our session
