@@ -56,7 +56,8 @@ router.post('/', (req, res) => {
 
     // now that we have user specific fruits, we'll add a username upon creation
     // remember, when we login, we saved the username to the session object
-    req.body.username = req.session.username
+    // TODO: need to get a users ._id somehow and change this line
+    req.body.owner = req.session.username
 
     Fruit.create(req.body)
         .then(fruit => {
@@ -86,7 +87,8 @@ router.get('/', (req, res) => {
 
 router.get('/mine', (req, res) => {
     // find the fruits associated with the logged in user
-    Fruit.find({ username: req.session.username })
+    // TODO: change the username to Users ._id
+    Fruit.find({ owner: req.session.username })
         .then(fruits => {
             res.render('fruits/index', { fruits })
         })

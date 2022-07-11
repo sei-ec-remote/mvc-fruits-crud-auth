@@ -4,17 +4,20 @@ const mongoose = require('./connection')
 // inside of mongoose I want the keys that are named Schema and model
 const { Schema, model } = mongoose
 
-const fruitSchema = new Schema({
-    name: String,
-    color: String,
-    readyToEat: Boolean,
-    username: {
-        type: String,
-        default: ""
-    }
-}, {
-    timestamps: true
-})
+const fruitSchema = new Schema(
+	{
+		name: String,
+		color: String,
+		readyToEat: Boolean,
+		owner: {
+			type: Schema.Types.ObjectId, // a single User ._id
+			ref: 'User', // const User = model('User', userSchema) the string of 'User' is how we reference a model
+		},
+	},
+	{
+		timestamps: true,
+	}
+)
 
 // need to make a model
 // this collections will be called fruits
