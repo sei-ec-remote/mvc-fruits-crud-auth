@@ -29,5 +29,30 @@ router.post('/:fruitId', (req, res) => {
 })
 
 // DELETE - delete yeeting
+// localhost:3000/comments/delete/:fruitId/:commId
+router.delete('/delete/:fruitId/:commId', (req, res) => {
+    const fruitId = req.params.fruitId
+    const commId = req.params.commId
+
+    // find a fruit by it's ID
+    Fruit.findById(fruitId) // single fruit doc inside a fruit doc will have many comments
+    // find this comment by it's ID
+        .then(fruit => {
+            const comment = fruit.comments.id(commId)
+
+            // remove comment
+            comment.remove()
+
+            // i've changed the comments field by 1
+            return fruit.save()
+        })
+        .then(fruit => {
+            res.redirect(`/fruits/${fruitId}`)
+        })
+        .catch(err => {
+            res.send(err)
+        })
+    
+})
 
 module.exports = router
