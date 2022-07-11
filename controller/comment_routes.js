@@ -5,7 +5,7 @@ const router = express.Router()
 const Fruit = require('../models/fruit')
 
 // POST - Creation
-// localhost:3000/fruits/:fruitId <- A single Fruit can have many comments
+// localhost:3000/comments/:fruitId <- A single Fruit can have many comments
 router.post('/:fruitId', (req, res) => {
     const fruitId = req.params.fruitId
     req.body.author = req.body.userId

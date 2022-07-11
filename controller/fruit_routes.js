@@ -31,6 +31,7 @@ router.get('/:id/edit', (req, res) => {
 })
 
 // PUT - Update
+// localhost:3000/fruits/:id
 router.put('/:id', (req, res) => {
     const fruitId = req.params.id
 
@@ -133,10 +134,17 @@ router.get('/:id', (req, res) => {
     const fruitId = req.params.id
 
     Fruit.findById(fruitId)
+    // populate our User models fields
+    // comment has an author field and that is the ref to the User model
+    // always going to be a string of the value you want to populate
+    // this also has to be anohter model 
+        .populate('comments.author')
         // send back some json
         .then(fruit => {
             // res.json(fruit)
-            res.render('fruits/show', { fruit })
+            const userId = req.session.userId
+            const username = req.session.username
+            res.render('fruits/show', { fruit, userId, username })
         })
         .catch(err => {
             res.json(err)

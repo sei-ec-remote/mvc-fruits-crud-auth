@@ -8,6 +8,7 @@ const morgan = require('morgan')
 const methodOverride = require('method-override')
 const fruitRoutes = require('./controller/fruit_routes')
 const userRoutes = require('./controller/user_routes')
+const commentRoutes = require('./controller/comment_routes')
 
 ////////////////////////////////////////////
 // Create our express application object
@@ -45,6 +46,7 @@ app.use(
 ////////////////////////////////////////////
 app.use('/fruits', fruitRoutes)
 app.use('/users', userRoutes)
+app.use('/comments', commentRoutes)
 
 // localhost:3000/
 app.get('/', (req, res) => {
