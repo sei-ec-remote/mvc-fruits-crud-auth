@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
     console.log('this is the session', req.session)
     // first we find the user
     User.findOne({ username })
-        .then(async (user) => {
+        .then(async (user) => { // ._id
             // we check if the user exists
             // if they do, we'll compare the passwords and make sure it's correct
             if (user) {
@@ -76,6 +76,7 @@ router.post('/login', async (req, res) => {
                     // if the pw is correct, we'll use the newly created session object
                     req.session.username = username
                     req.session.loggedIn = true
+                    req.session.userId = user._id
                     // redirect to the '/fruits' page
                     console.log('this is the session after login', req.session)
                     res.redirect('/fruits')

@@ -47,7 +47,9 @@ router.put('/:id', (req, res) => {
 
 // GET route for displaying my form for create
 router.get('/new', (req, res) => {
-    res.render('fruits/new')
+    const username = req.session.username
+    const loggedIn = req.session.loggedIn
+    res.render('fruits/new', { username, loggedIn })
 })
 
 // POST - Create
@@ -56,9 +58,11 @@ router.post('/', (req, res) => {
 
     // now that we have user specific fruits, we'll add a username upon creation
     // remember, when we login, we saved the username to the session object
-    // TODO: need to get a users ._id somehow and change this line
-    req.body.owner = req.session.username
+    // using the ._id to set the owner field
+    
+    req.body.owner = req.session.userId
 
+    console.log(req.body)
     Fruit.create(req.body)
         .then(fruit => {
             console.log(fruit)
@@ -87,8 +91,7 @@ router.get('/', (req, res) => {
 
 router.get('/mine', (req, res) => {
     // find the fruits associated with the logged in user
-    // TODO: change the username to Users ._id
-    Fruit.find({ owner: req.session.username })
+    Fruit.find({ owner: req.session.userId })
         .then(fruits => {
             res.render('fruits/index', { fruits })
         })
